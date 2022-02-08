@@ -1,0 +1,4 @@
+*.min.js
+package-lock.json
+playground.js
+*.json
