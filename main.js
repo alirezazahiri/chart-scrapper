@@ -94,19 +94,19 @@ for (let i = 0; i < _rows.length; i++) {
     if (j === i) continue;
     const slave = data[j]["زمان و مكان ارائه/ امتحان"]["exam"];
     if (slave && master && master === slave) {
-      const newInterferer = `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}`;
+      const newInterferer = `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}|${data[j]["نام استاد"]}`;
       const prevMasterRelations = Object.keys(examInterferences).includes(
-        `${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}`
+        `${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`
       )
         ? [
             ...examInterferences[
-              `${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}`
+              `${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`
             ],
           ]
         : [];
       examInterferences = {
         ...examInterferences,
-        [`${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}`]: [
+        [`${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`]: [
           ...prevMasterRelations,
           newInterferer,
         ],
@@ -172,7 +172,7 @@ for (let i = 0; i < _rows.length; i++) {
         if (ms[0] === ss[0]) {
           if (isRangeInterrupted(ms[1], ss[1])) {
             ses_int.push({
-              [`${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}`]: `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}`,
+              [`${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`]: `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}|${data[j]["نام استاد"]}`,
             });
           }
         }
@@ -196,3 +196,4 @@ console.log({
   "تداخل کلاس ها": session_interfers,
   "تداخل امتحانات": examInterferences,
 });
+
