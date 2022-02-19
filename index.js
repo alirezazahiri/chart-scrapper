@@ -47,6 +47,7 @@ const events = {
 input.addEventListener("keyup", (e) => {
   const value = [...e.target.value]
     .map((char) => (char === "ی" ? "ي" : char))
+    .map((char) => (char === "ک" ? "ك" : char))
     .join("");
   events.criteria = value === "undefined" ? "" : value;
   render(examInterferences, examsRoot, events.criteria.trim());
