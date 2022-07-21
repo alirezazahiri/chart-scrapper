@@ -234,8 +234,6 @@ const JSONData = JSON.stringify({
   "تداخل امتحانات": examInterferences,
 });
 
-console.log(JSONData);
-
 const HTML_CODE = `
 <!DOCTYPE html>
 <html lang="en">
