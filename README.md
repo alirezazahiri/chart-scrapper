@@ -19,11 +19,10 @@ fetch(
     textArea.focus();
     textArea.select();
     try {
-      var successful = document.execCommand("copy");
-      var msg = successful ? "successful" : "unsuccessful";
-      console.log("Fallback: Copying text command was " + msg);
+      const successful = document.execCommand("copy");
+      console.log(successful ? "successful" : "unsuccessful");
     } catch (err) {
-      console.error("Fallback: Oops, unable to copy", err);
+      console.error("unable to copy!", err);
     }
     document.body.removeChild(textArea);
   })
