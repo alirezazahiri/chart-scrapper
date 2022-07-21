@@ -1,7 +1,5 @@
-const table = document.getElementsByClassName("DTitle")[0];
 const tbody = document.getElementsByTagName("tbody")[0];
 
-const keys = [].concat(...table.children).map((td) => td.innerHTML.trim());
 const rows = []
   .concat(...tbody.children)
   .slice(1)
@@ -106,10 +104,8 @@ for (let i = 0; i < _rows.length; i++) {
         : [];
       examInterferences = {
         ...examInterferences,
-        [`${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`]: [
-          ...prevMasterRelations,
-          newInterferer,
-        ],
+        [`${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`]:
+          [...prevMasterRelations, newInterferer],
       };
     }
   }
@@ -192,7 +188,188 @@ ses_int.forEach((item, index) => {
   };
 });
 
-console.log({
+(function (console) {
+  console.save = function (data, filename) {
+    if (!data) {
+      console.error("Console.save: No data");
+      return;
+    }
+
+    if (!filename) filename = "console.json";
+
+    if (typeof data === "object") {
+      data = JSON.stringify(data, undefined, 4);
+    }
+
+    var blob = new Blob([data], { type: "text/json" }),
+      e = document.createEvent("MouseEvents"),
+      a = document.createElement("a");
+
+    a.download = filename;
+    a.href = window.URL.createObjectURL(blob);
+    a.dataset.downloadurl = ["text/json", a.download, a.href].join(":");
+    e.initMouseEvent(
+      "click",
+      true,
+      false,
+      window,
+      0,
+      0,
+      0,
+      0,
+      0,
+      false,
+      false,
+      false,
+      false,
+      0,
+      null
+    );
+    a.dispatchEvent(e);
+  };
+})(console);
+
+const JSONData = JSON.stringify({
   "تداخل کلاس ها": session_interfers,
   "تداخل امتحانات": examInterferences,
 });
+
+console.log(JSONData);
+
+const HTML_CODE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body id="root">
+    <style lang="css">
+      html {
+        scroll-behavior: smooth;
+        font-size: 62.5%;
+      }
+
+      body {
+        padding: 20px 10px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 50px;
+        padding-top: 50px;
+        border-top: 1px solid black;
+      }
+
+      #classes-root {
+        margin-top: 30px;
+        padding-top: 10px;
+      }
+
+      .key {
+        font-size: 2rem;
+        font-weight: 600;
+        color: rgb(28, 92, 92);
+        padding-left: 5px;
+      }
+
+      .interferer {
+        color: rgb(219, 78, 78);
+        padding-left: 10px;
+        padding: 10px 15px 0;
+      }
+
+      #search {
+        left: 10px;
+        right: 10px;
+        width: 98%;
+        line-height: 30px;
+        position: fixed;
+        padding-left: 3px;
+        font-size: 2rem;
+      }
+    </style>
+    <input id="search" type="text" />
+    <h1>تداخل امتحانات</h1>
+    <div id="exams-root"></div>
+    <h1>تداخل کلاس ها</h1>
+    <div id="classes-root"></div>
+    <script type="text/javascript" id="json-data-container"></script>
+      
+    <script>const JSONData = ${JSONData}</script>
+    <script>
+    const jsonDataContainer = document.getElementById("json-data-container")
+
+    const init = () => {
+      jsonDataContainer.innerText = ""
+    }
+    
+    const root = document.getElementById("root");
+    
+    const examsRoot = document.getElementById("exams-root");
+    const classesRoot = document.getElementById("classes-root");
+    
+    const examInterferences = JSONData["تداخل امتحانات"];
+    const classInterferences = JSONData["تداخل کلاس ها"];
+    
+    const render = (obj, root, criteria = "") => {
+      root.innerHTML = "";
+      for (const key of Object.keys(obj).filter((item) =>
+        item.includes(criteria)
+      )) {
+        const ul = document.createElement("ul");
+        ul.innerHTML = key;
+        ul.style =
+          "cursor: pointer; display: flex; flex-direction: column; padding-top: 10px;";
+        ul.classList.add("key");
+        for (const interferer of obj[key]) {
+          const li = document.createElement("li");
+          li.innerHTML = interferer;
+          li.classList.add("interferer");
+          li.style =
+            "display: none; margin-top: 10px; transition: all 0.3s ease-in-out;";
+          ul.appendChild(li);
+        }
+        ul.addEventListener("click", (e) => {
+          for (const child of [].concat(...ul.children)) {
+            child.style = "display:" + " " + child.style.display === "none" ? "unset" : "none";
+          }
+        });
+        root.appendChild(ul);
+      }
+    };
+    
+    render(examInterferences, examsRoot);
+    render(classInterferences, classesRoot);
+    
+    const input = document.getElementById("search");
+    
+    const events = {
+      criteria: "",
+    };
+    
+    input.addEventListener("keyup", (e) => {
+      const value = [...e.target.value]
+        .map((char) => (char === "ی" ? "ي" : char))
+        .map((char) => (char === "ک" ? "ك" : char))
+        .join("");
+      events.criteria = value === "undefined" ? "" : value;
+      render(examInterferences, examsRoot, events.criteria.trim());
+      render(classInterferences, classesRoot, events.criteria.trim());
+    });
+    </script>
+  </body>
+</html>
+`;
+
+console.save(HTML_CODE, "index.html");
