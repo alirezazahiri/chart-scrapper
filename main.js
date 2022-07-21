@@ -94,7 +94,7 @@ for (let i = 0; i < _rows.length; i++) {
     if (j === i) continue;
     const slave = data[j]["زمان و مكان ارائه/ امتحان"]["exam"];
     if (slave && master && master === slave) {
-      const newInterferer = `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}|${data[j]["نام استاد"]}`;
+      const newInterferer = `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}`;
       const prevMasterRelations = Object.keys(examInterferences).includes(
         `${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`
       )
@@ -196,4 +196,3 @@ console.log({
   "تداخل کلاس ها": session_interfers,
   "تداخل امتحانات": examInterferences,
 });
-

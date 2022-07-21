@@ -1,3 +1,9 @@
+const jsonDataContainer = document.getElementById("json-data-container")
+
+const init = () => {
+  jsonDataContainer.innerText = ``
+}
+
 const root = document.getElementById("root");
 
 const examsRoot = document.getElementById("exams-root");
