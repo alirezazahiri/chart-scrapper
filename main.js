@@ -92,7 +92,7 @@ for (let i = 0; i < _rows.length; i++) {
     if (j === i) continue;
     const slave = data[j]["زمان و مكان ارائه/ امتحان"]["exam"];
     if (slave && master && master === slave) {
-      const newInterferer = `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}`;
+      const newInterferer = `${data[j]["شماره و گروه درس"]}|${data[j]["نام درس"]}|${data[i]["نام استاد"]}`;
       const prevMasterRelations = Object.keys(examInterferences).includes(
         `${data[i]["شماره و گروه درس"]}|${data[i]["نام درس"]}|${data[i]["نام استاد"]}`
       )
@@ -112,7 +112,7 @@ for (let i = 0; i < _rows.length; i++) {
 }
 
 const dayDictionary = {
-  شنبه: "saturday",
+  "شنبه": "saturday",
   "يك شنبه": "sunday",
   "يک شنبه": "sunday",
   "دو شنبه": "monday",
