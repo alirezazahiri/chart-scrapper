@@ -1,4 +1,4 @@
-- run the code below in the console (which is opened in the `golestan`'s window and run that) :
+- run the code below in the console (which is opened in the `golestan`'s window) :
 
 ```js
 fetch(
