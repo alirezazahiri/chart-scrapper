@@ -185,7 +185,7 @@ ses_int.forEach((item, index) => {
   const prev = history ? [...history] : [];
   session_interfers = {
     ...session_interfers,
-    [Object.keys(item)[0]]: [...prev, item[Object.keys(item)[0]]],
+    [Object.keys(item)[0]]: [...new Set([...prev, item[Object.keys(item)[0]]])],
   };
 });
 
