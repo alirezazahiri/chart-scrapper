@@ -51,9 +51,12 @@ const DAY_DICTIONARY = {
   "يك شنبه": "sunday",
   "يک شنبه": "sunday",
   "دو شنبه": "monday",
+  "دوشنبه": "monday",
   "سه شنبه": "tuesday",
   "چهار شنبه": "wednesday",
+  "چهارشنبه": "wednesday",
   "پنج شنبه": "thursday",
+  "پنجشنبه": "thursday",
   جمعه: "friday",
 };
 
