@@ -65,8 +65,10 @@ for (let i = 0; i < rows.length; i++) {
   for (let j = 0; j < rows[i].length; j++)
     if (j >= 6 && j <= 10) obj[schema[j]] = +rows[i][j];
     else {
-      if (schema[j] === "collegeID") collegeID = rows[i][j];
-      else if (schema[j] === "professor")
+      if (schema[j] === "collegeID") {
+        collegeID = rows[i][j];
+        obj[schema[j]] = collegeID;
+      } else if (schema[j] === "professor")
         obj[schema[j]] = rows[i][j]
           .split("<br>")
           .filter((name) => name)
