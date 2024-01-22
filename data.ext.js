@@ -51,12 +51,12 @@ const DAY_DICTIONARY = {
   "يك شنبه": "sunday",
   "يک شنبه": "sunday",
   "دو شنبه": "monday",
-  "دوشنبه": "monday",
+  دوشنبه: "monday",
   "سه شنبه": "tuesday",
   "چهار شنبه": "wednesday",
-  "چهارشنبه": "wednesday",
+  چهارشنبه: "wednesday",
   "پنج شنبه": "thursday",
-  "پنجشنبه": "thursday",
+  پنجشنبه: "thursday",
   جمعه: "friday",
 };
 
@@ -106,10 +106,12 @@ function getExamAndClassTimes(dateAndTime) {
         ] || "unknown";
       const [from, to] = classTime.split("-");
       obj[classDay] = { from, to };
-    } else {
+    } else if (line.includes("امتحان")) {
       let examDate = /\d\d\d\d\.\d\d\.\d\d/.exec(line)[0];
       let examTime = /\d\d\:\d\d\-\d\d\:\d\d/.exec(line)[0];
       obj["exam"] = { date: examDate, time: examTime };
+    } else {
+      continue;
     }
   }
 
